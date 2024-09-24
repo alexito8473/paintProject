@@ -37,14 +37,17 @@ section{
 .contentPickColor{
     display: flex;
     align-items: center;
-
     border-radius: 100px;
 }
 .pickColor{
     appearance: none; /* Oculta el estilo predeterminado */
     -webkit-appearance: none; /* Oculta el estilo predeterminado en WebKit */
-    width: 80px; /* Ancho del selector */
-    height: 80px; /* Altura del selector */
+    width: 4vw; /* Ancho del selector */
+    height: 3vw; /* Altura del selector */
+    min-height: 60px;
+    min-width: 60px;
+    max-width: 100px;
+    max-height: 80px;
     border: 1px solid #CCCCCC; /* Bordes claros */
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cursor en forma de mano al pasar */
@@ -70,3 +73,56 @@ section{
 .selectedColor:active{
     border: 1px solid black;
 }
+.utils{
+    padding: 10px;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    border-right:1px solid white ;
+}
+#draw {
+    background-image: url(assets/pen.png);
+}
+#delete {
+    background-image: url(assets/delete.png);
+}
+
+#square {
+    background-image: url(assets/square.png);
+}
+
+#elipse {
+    background-image: url(assets/elipse.png);
+}
+
+#clear {
+    background-image: url(assets/clear.png);
+}
+.selectedUtils{
+
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-color: #272727;
+    background-size: 40px 40px;
+    background-position: center;
+}
+.selectedUtils:hover{
+    background-color: grey;
+}
+.with-border {
+    border: 1px solid white; /* Añadir borde blanco de 1px */
+}
+#circle {
+    position: absolute;
+    width: 40px; /* Diámetro del círculo */
+    height: 40px;
+    border-radius: 50%; /* Hacerlo circular */
+    border: 2px solid red; /* Borde del círculo */
+    pointer-events: none; /* No interferir con interacciones */
+    transform: translate(-50%, -50%); /* Centrar el círculo en el cursor */
+    transition: transform 0.1s ease; /* Suavizar movimiento */
+}
+

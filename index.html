@@ -10,9 +10,17 @@
     <body>
         <script src="logic.js" type="module"></script>
         <header>
+            <div class="utils">
+                <button class="selectedUtils with-border" id="draw" ></button>
+                <button class="selectedUtils" id="delete"></button>
+                <button class="selectedUtils" id="elipse"></button>
+                <button class="selectedUtils" id="clear"></button>
+                <button class="selectedUtils" id="square"></button>
+        
+            </div>
             <div class="colors">
                 <div class="contentColors">
-                    <button  class="selectedColor" id="pick1"></button >
+                    <button  class="selectedColor " id="pick1"></button >
                     <button  class="selectedColor" id="pick2"></button >
                     <button  class="selectedColor" id="pick3"></button >
                     <button  class="selectedColor" id="pick4"></button >
@@ -25,9 +33,9 @@
         </header>
         <section>
             <canvas class="draw" width=1100
-                height=600
-            
+                height=500
                 id="canvas"></canvas>
+                <div id="circle"></div>
         </section>
     </body>
 </html>
