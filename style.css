@@ -1,0 +1,57 @@
+*{
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+header{
+    height:15vh;
+    min-height: 300;
+    background-color: #272727;
+    display: flex;
+}
+section{
+    height: 85vh;
+    background-color: #212120;
+    display:flex;
+    align-items: center;
+
+
+}
+.draw{
+    margin: 0 auto;
+    width: 50vw;
+    height:55vh;
+    min-height: 400px;
+    min-width: 900px;
+    background-color: white;
+}
+.colors{
+    width: 300px;
+    display: flex;
+    border-right:1px solid white ;
+}
+.contentColors{
+    width: 200px;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center;
+}
+.contentPickColor{
+    display: flex;
+    align-items: center;
+}
+.pickColor{
+    width: 50px;
+    height: 50px;
+    border:3px solid white
+}
+
+.selectedColor1{
+    background-color: black;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+}
