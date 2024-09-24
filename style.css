@@ -20,7 +20,6 @@ section{
 }
 .draw{
     margin: 0 auto;
-
     background-color: white;
 }
 .colors{
@@ -49,9 +48,12 @@ section{
     border: 1px solid #CCCCCC; /* Bordes claros */
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cursor en forma de mano al pasar */
-    border-radius: 300px;
+   
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
     transition: all 0.2s ease; /* Transición suave */
+}
+.pickColor input{
+    border-radius: 300px;
 }
 .pickColor:hover {
     border-color: #0078D4; /* Color del borde al pasar el ratón */
