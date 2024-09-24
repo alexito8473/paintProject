@@ -4,7 +4,8 @@ const Mode = {
     Draw: 'draw',
     Square: "square",
     Eclipse: "eclipse",
-    Delete: "delete"
+    Delete: "delete",
+    Dropper: "dropper"
 };
 
 // Recupera un elemento
@@ -19,26 +20,32 @@ const $drawButton = $("#draw")
 const $deleteButton = $("#delete")
 const $elipseButton = $("#elipse")
 const $squareButton = $("#square")
-const $circleCursor=$("#circle");
-const listButtons = [$drawButton, $deleteButton, $elipseButton, $squareButton]
+const $circleCursor = $("#circle");
+const $dropperCursor = $("#dropper");
+const listButtons = [$drawButton, $deleteButton, $elipseButton, $squareButton, $dropperCursor]
 const ctx = $canvasDraw.getContext("2d")
+
+ctx.fillStyle = 'white';
+ctx.fillRect(0, 0, $canvasDraw.width, $canvasDraw.height);
 
 // Estraemos todos los botones que tenemos
 const $picks = $$(".selectedColor")
 const $utils = $("#draw")
-$circleCursor.style.display="none"
+
+$circleCursor.style.display = "none"
 
 // Estados de la web
 let isDrawing = false;
 let lastX = 0;
+let shiftPrest = false;
 let lastY = 0;
 let startX, startY;
 let mode = Mode.Draw;
 let lastClickedButton = null;
 let dateImage;
-let canvasLineWidth=10;
-let defaultlineWidth=10;
-let lineWidthDelete=30;
+let canvasLineWidth = 10;
+let defaultlineWidth = 10;
+let lineWidthDelete = 30;
 
 // Eventos
 
@@ -53,39 +60,42 @@ listButtons.map(button => {
         setMode(selectedMode(button), button);
     })
 })
-document.addEventListener('mousemove', function(event) {
-    const mouseX = event.pageX; 
-    const mouseY = event.pageY; 
-    $circleCursor.style.left = mouseX + 'px'; 
-    $circleCursor.style.top = mouseY + 'px'; 
+document.addEventListener('mousemove', function (event) {
+    const mouseX = event.pageX;
+    const mouseY = event.pageY;
+    $circleCursor.style.left = mouseX + 'px';
+    $circleCursor.style.top = mouseY + 'px';
 });
-
-
+document.addEventListener("keydown", actionKeyDown)
+document.addEventListener("keyup", actionKeyUp)
 $picks.forEach(button => button.addEventListener("click", clickButton));
 
 // Metodos
-
 function startDrawing(event) {
     isDrawing = true;
     const { offsetX, offsetY } = event;
     [startX, startY] = [offsetX, offsetY];
     [lastX, lastY] = [offsetX, offsetY];
-    if (mode == Mode.Square) {
+    if (mode == Mode.Square||mode==Mode.Eclipse) {
         dateImage = ctx.getImageData(0, 0, $canvasDraw.width, $canvasDraw.height);
+    } else if (mode == Mode.Dropper) {
+        obtainColorDropper(event);
     }
 }
 function drawInCanvas(event) {
     if (!isDrawing) return;
     const { offsetX, offsetY } = event;
-    if (mode == Mode.Draw||mode==Mode.Delete) {
+    if (mode == Mode.Draw || mode == Mode.Delete) {
         draw(offsetX, offsetY);
     } else if (mode == Mode.Square) {
         drawSquare(offsetX, offsetY);
+    } else if (mode == Mode.Eclipse) {
+        drawEclipse(offsetX, offsetY)
     }
 }
 
 function stopDrawing(event) {
-    isDrawing = false
+        isDrawing = false
 }
 
 function changeColor(event) {
@@ -104,6 +114,8 @@ function clickButton(event) {
 
 function clearCanvas() {
     ctx.clearRect(0, 0, $canvasDraw.width, $canvasDraw.height)
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, $canvasDraw.width, $canvasDraw.height);
 }
 
 function drawCanvas() {
@@ -127,9 +139,16 @@ function draw(offsetX, offsetY) {
 }
 
 function drawSquare(offsetX, offsetY) {
-    ctx.putImageData(dateImage,0,0);
-    const width = offsetX - startX;
-    const height = offsetY - startY;
+    ctx.putImageData(dateImage, 0, 0);
+    let width = offsetX - startX;
+    let height = offsetY - startY;
+
+    if (shiftPrest) {
+        const sideLength = Math.min(Math.abs(width), Math.abs(height));
+        width = width > 0 ? sideLength : -sideLength;
+        height = height > 0 ? sideLength : -sideLength;
+    }   
+
     ctx.beginPath();
     ctx.rect(startX, startY, width, height);
     ctx.lineWidth = canvasLineWidth;
@@ -137,25 +156,34 @@ function drawSquare(offsetX, offsetY) {
     ctx.stroke();
 }
 
-function drawDelete(offsetX, offsetY){
-    const rect = $canvasDraw.getBoundingClientRect();
-    const mouseX = offsetX + rect.left;
-    const mouseY = offsetY - rect.top+100;
-
-    // Mover el círculo a la posición del cursor
-    circle.style.transform = `translate(${mouseX - circle.offsetWidth / 2}px, ${mouseY - circle.offsetHeight / 2}px)`;
+function drawEclipse(offsetX, offsetY){
+      ctx.putImageData(dateImage, 0, 0);
+    let width = offsetX - startX;
+    let height = offsetY - startY;
+    if (shiftPrest) {
+        const sideLength = Math.min(Math.abs(width), Math.abs(height));
+        width = width > 0 ? sideLength : -sideLength;
+        height = height > 0 ? sideLength : -sideLength;
+    }  
+    width = width > 0 ? width : -width;
+    height = height > 0 ? height : -height;
+    ctx.beginPath();
+    ctx.ellipse(startX, startY, width, height,0,0,2 * Math.PI);
+    ctx.lineWidth = canvasLineWidth;
+    ctx.lineCap = "round";
+    ctx.stroke();
 }
 function selectedMode(button) {
-    canvasLineWidth= defaultlineWidth;
+    canvasLineWidth = defaultlineWidth;
     $circleCursor.style.display = 'none';
-    ctx.globalCompositeOperation="source-over";
+    ctx.globalCompositeOperation = "source-over";
     if (button == $drawButton) {
         $canvasDraw.style.cursor = "crosshair";
         return Mode.Draw;
     } else if (button == $deleteButton) {
-        canvasLineWidth= lineWidthDelete;
-        $circleCursor.style.display="block"
-        ctx.globalCompositeOperation="destination-out";
+        canvasLineWidth = lineWidthDelete;
+        $circleCursor.style.display = "block"
+        ctx.globalCompositeOperation = "destination-out";
         $canvasDraw.style.cursor = "not-allowed";
         return Mode.Delete;
     } else if (button == $elipseButton) {
@@ -164,13 +192,45 @@ function selectedMode(button) {
     } else if (button == $squareButton) {
         $canvasDraw.style.cursor = "move";
         return Mode.Square;
+    } else if (button == $dropperCursor) {
+        $canvasDraw.style.cursor = "pointer";
+        return Mode.Dropper;
     }
     $canvasDraw.style.cursor = "crosshair";
     return Mode.Draw;
 }
+
+function obtainColorDropper(event) {
+    const { offsetX, offsetY } = event;
+    const pixelData = ctx.getImageData(offsetX, offsetY, 1, 1).data;
+    console.log(pixelData);
+    const rgb = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`;
+    $pickerColor.value = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+    console.log($pickerColor.value);
+    ctx.strokeStyle = rgb;
+    if (lastClickedButton != null) {
+        lastClickedButton.style.backgroundColor = rgb;
+        lastClickedButton = null;
+    }
+}
+
 function removeAllBorderButtonUtils() {
-    $drawButton.classList.remove('with-border');
-    $deleteButton.classList.remove('with-border');
-    $elipseButton.classList.remove('with-border');
-    $squareButton.classList.remove('with-border');
+    listButtons.map(button => {
+        button.classList.remove('with-border');
+    })
+}
+function rgbToHex(r, g, b) {
+    const toHex = (c) => {
+        const hex = c.toString(16);
+        return hex.length === 1 ? '0' + hex : hex; 
+    };
+
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+}
+
+function actionKeyDown(event) {
+    shiftPrest = event.key == "Shift"
+}
+function actionKeyUp(event) {
+    shiftPrest = event.key != "Shift"
 }

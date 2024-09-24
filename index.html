@@ -16,7 +16,7 @@
                 <button class="selectedUtils" id="elipse"></button>
                 <button class="selectedUtils" id="clear"></button>
                 <button class="selectedUtils" id="square"></button>
-        
+                <button class="selectedUtils" id="dropper"></button>
             </div>
             <div class="colors">
                 <div class="contentColors">
@@ -27,15 +27,22 @@
                     <button  class="selectedColor" id="pick5"></button >
                 </div>
                 <div class="contentPickColor">
-                    <input class="pickColor" type="color" id="pickColor">
+                    <input class="pickColor" type="color" id="pickColor" value="black">
                 </div>
+            </div>
+            <div class="title">
+                <h1>Paint vanilla</h1>
+                <div><img src="assets/paint.png" alt="Paint"></div>
             </div>
         </header>
         <section>
-            <canvas class="draw" width=1100
+            <div id="circle"></div>
+            <div class="draw">
+                <canvas  width=1200
                 height=500
                 id="canvas"></canvas>
-                <div id="circle"></div>
+            </div>
+           
         </section>
     </body>
 </html>
