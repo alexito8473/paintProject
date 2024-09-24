@@ -20,19 +20,16 @@ section{
 }
 .draw{
     margin: 0 auto;
-    width: 50vw;
-    height:55vh;
-    min-height: 400px;
-    min-width: 900px;
+
     background-color: white;
 }
 .colors{
-    width: 300px;
+    width: 400px;
     display: flex;
     border-right:1px solid white ;
 }
 .contentColors{
-    width: 200px;
+    width: 250px;
     display: flex;
     flex-wrap: wrap; 
     justify-content: center; 
@@ -41,17 +38,33 @@ section{
 .contentPickColor{
     display: flex;
     align-items: center;
+
+    border-radius: 100px;
 }
 .pickColor{
-    width: 50px;
-    height: 50px;
-    border:3px solid white
+    appearance: none; /* Oculta el estilo predeterminado */
+    -webkit-appearance: none; /* Oculta el estilo predeterminado en WebKit */
+    width: 80px; /* Ancho del selector */
+    height: 80px; /* Altura del selector */
+    border: 1px solid #CCCCCC; /* Bordes claros */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano al pasar */
+    border-radius: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: all 0.2s ease; /* Transición suave */
 }
-
-.selectedColor1{
-    background-color: black;
+.pickColor:hover {
+    border-color: #0078D4; /* Color del borde al pasar el ratón */
+}
+.selectedColor{
+    background-color: white;
     border-radius: 100px;
-    width: 30px;
-    height: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.496);
+    width: 40px;
+    height: 40px;
     margin: 2px;
+    cursor: pointer;
+}
+.selectedColor:active{
+    border: 1px solid black;
 }

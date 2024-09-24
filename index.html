@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -7,25 +8,26 @@
         <title>Paint</title>
     </head>
     <body>
-        <script src="script.js" type="module"></script>
+        <script src="logic.js" type="module"></script>
         <header>
             <div class="colors">
                 <div class="contentColors">
-                    <button class="selectedColor1">.</button>
-                    <button class="selectedColor1">.</button>
-                    <button class="selectedColor1">.</button>
-                    <button class="selectedColor1">.</button>
-                    <button class="selectedColor1">.</button>
+                    <button  class="selectedColor" id="pick1"></button >
+                    <button  class="selectedColor" id="pick2"></button >
+                    <button  class="selectedColor" id="pick3"></button >
+                    <button  class="selectedColor" id="pick4"></button >
+                    <button  class="selectedColor" id="pick5"></button >
                 </div>
                 <div class="contentPickColor">
-                    <input class="pickColor" type="color">
+                    <input class="pickColor" type="color" id="pickColor">
                 </div>
             </div>
         </header>
         <section>
-            <canvas class="draw">
-
-            </canvas>
+            <canvas class="draw" width=1800
+                height=700
+            
+                id="canvas"></canvas>
         </section>
     </body>
 </html>
