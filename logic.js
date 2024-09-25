@@ -51,9 +51,9 @@ let defaultlineWidth = 10;
 let lineWidthDelete = 30;
 
 $numberFontDraw.value=canvasLineWidth;
-$numberFontEraser.value=defaultlineWidth;
-$circleCursor.style.width=$numberFontEraser.value+"px"
-$circleCursor.style.height=$numberFontEraser.value+"px"
+$numberFontEraser.value=lineWidthDelete;
+$circleCursor.style.width=lineWidthDelete+"px"
+$circleCursor.style.height=lineWidthDelete+"px"
 
 // Eventos
 
