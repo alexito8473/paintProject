@@ -1,4 +1,4 @@
-// Contantes 
+// Contantes
 
 const Mode = {
     Draw: 'draw',
@@ -22,6 +22,9 @@ const $elipseButton = $("#elipse")
 const $squareButton = $("#square")
 const $circleCursor = $("#circle");
 const $dropperCursor = $("#dropper");
+const $numberFontDraw = $("#numberFontDraw");
+const $numberFontEraser = $("#numberFontEraser");
+
 const listButtons = [$drawButton, $deleteButton, $elipseButton, $squareButton, $dropperCursor]
 const ctx = $canvasDraw.getContext("2d")
 
@@ -47,6 +50,11 @@ let canvasLineWidth = 10;
 let defaultlineWidth = 10;
 let lineWidthDelete = 30;
 
+$numberFontDraw.value=canvasLineWidth;
+$numberFontEraser.value=defaultlineWidth;
+$circleCursor.style.width=$numberFontEraser.value+"px"
+$circleCursor.style.height=$numberFontEraser.value+"px"
+
 // Eventos
 
 $canvasDraw.addEventListener("mousedown", startDrawing);
@@ -55,6 +63,8 @@ $canvasDraw.addEventListener("mouseup", stopDrawing);
 $canvasDraw.addEventListener("mouseleave", stopDrawing);
 $pickerColor.addEventListener("change", changeColor);
 $clearButton.addEventListener("click", clearCanvas);
+$numberFontDraw.addEventListener("click",changeLineWidthDraw)
+$numberFontEraser.addEventListener("click",changeLineWidthEraser)
 listButtons.map(button => {
     button.addEventListener("click", () => {
         setMode(selectedMode(button), button);
@@ -66,6 +76,8 @@ document.addEventListener('mousemove', function (event) {
     $circleCursor.style.left = mouseX + 'px';
     $circleCursor.style.top = mouseY + 'px';
 });
+
+
 document.addEventListener("keydown", actionKeyDown)
 document.addEventListener("keyup", actionKeyUp)
 $picks.forEach(button => button.addEventListener("click", clickButton));
@@ -86,6 +98,7 @@ function drawInCanvas(event) {
     if (!isDrawing) return;
     const { offsetX, offsetY } = event;
     if (mode == Mode.Draw || mode == Mode.Delete) {
+    
         draw(offsetX, offsetY);
     } else if (mode == Mode.Square) {
         drawSquare(offsetX, offsetY);
@@ -118,10 +131,6 @@ function clearCanvas() {
     ctx.fillRect(0, 0, $canvasDraw.width, $canvasDraw.height);
 }
 
-function drawCanvas() {
-    setMode(Mode.Draw, $drawButton);
-}
-
 function setMode(newMode, button) {
     mode = newMode;
     removeAllBorderButtonUtils()
@@ -147,7 +156,7 @@ function drawSquare(offsetX, offsetY) {
         const sideLength = Math.min(Math.abs(width), Math.abs(height));
         width = width > 0 ? sideLength : -sideLength;
         height = height > 0 ? sideLength : -sideLength;
-    }   
+    }
 
     ctx.beginPath();
     ctx.rect(startX, startY, width, height);
@@ -164,7 +173,7 @@ function drawEclipse(offsetX, offsetY){
         const sideLength = Math.min(Math.abs(width), Math.abs(height));
         width = width > 0 ? sideLength : -sideLength;
         height = height > 0 ? sideLength : -sideLength;
-    }  
+    }
     width = width > 0 ? width : -width;
     height = height > 0 ? height : -height;
     ctx.beginPath();
@@ -184,7 +193,7 @@ function selectedMode(button) {
         canvasLineWidth = lineWidthDelete;
         $circleCursor.style.display = "block"
         ctx.globalCompositeOperation = "destination-out";
-        $canvasDraw.style.cursor = "not-allowed";
+        $canvasDraw.style.cursor = "none";
         return Mode.Delete;
     } else if (button == $elipseButton) {
         $canvasDraw.style.cursor = "move";
@@ -222,7 +231,7 @@ function removeAllBorderButtonUtils() {
 function rgbToHex(r, g, b) {
     const toHex = (c) => {
         const hex = c.toString(16);
-        return hex.length === 1 ? '0' + hex : hex; 
+        return hex.length === 1 ? '0' + hex : hex;
     };
 
     return '#' + toHex(r) + toHex(g) + toHex(b);
@@ -233,4 +242,18 @@ function actionKeyDown(event) {
 }
 function actionKeyUp(event) {
     shiftPrest = event.key != "Shift"
+}
+function changeLineWidthDraw(value){
+    defaultlineWidth=$numberFontDraw.value
+    canvasLineWidth=$numberFontDraw.value
+}
+
+function changeLineWidthEraser(value){
+    lineWidthDelete=$numberFontEraser.value
+    if(mode==Mode.Delete){
+        canvasLineWidth=$numberFontEraser.value
+    }
+   
+    $circleCursor.style.width=$numberFontEraser.value+"px"
+    $circleCursor.style.height=$numberFontEraser.value+"px"
 }

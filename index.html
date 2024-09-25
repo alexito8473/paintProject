@@ -5,13 +5,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
+        <meta name="description"
+            content="Descubre nuestra innovadora aplicación de pintura online. Crea y comparte tus obras de arte fácilmente.">
         <title>Paint</title>
     </head>
     <body>
         <script src="logic.js" type="module"></script>
         <header>
             <div class="utils">
-                <button class="selectedUtils with-border" id="draw" ></button>
+                <button descr class="selectedUtils with-border"
+                    id="draw"></button>
                 <button class="selectedUtils" id="delete"></button>
                 <button class="selectedUtils" id="elipse"></button>
                 <button class="selectedUtils" id="clear"></button>
@@ -20,14 +23,29 @@
             </div>
             <div class="colors">
                 <div class="contentColors">
-                    <button  class="selectedColor " id="pick1"></button >
-                    <button  class="selectedColor" id="pick2"></button >
-                    <button  class="selectedColor" id="pick3"></button >
-                    <button  class="selectedColor" id="pick4"></button >
-                    <button  class="selectedColor" id="pick5"></button >
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
+                    <button class="selectedColor"></button>
                 </div>
                 <div class="contentPickColor">
-                    <input class="pickColor" type="color" id="pickColor" value="black">
+                    <form>
+                        <input class="pickColor" type="color" id="pickColor"
+                            value="black">
+                    </form>
+                </div>
+            </div>
+            <div class="font">
+                <div class="fontDraw">
+                    <p>Font</p>
+                    <input type="number" id="numberFontDraw" min="1" max="40"> 
+                </div>
+                <div class="fontDraw">
+                    <p>Eraser</p>
+                    <input type="number" id="numberFontEraser" min="1" max="40"> 
                 </div>
             </div>
             <div class="title">
@@ -38,11 +56,11 @@
         <section>
             <div id="circle"></div>
             <div class="draw">
-                <canvas  width=1200
-                height=500
-                id="canvas"></canvas>
+                <canvas width=1200 style="background-color: white"
+                    height=500
+                    id="canvas"></canvas>
             </div>
-           
+
         </section>
     </body>
 </html>
