@@ -24,7 +24,7 @@ const $circleCursor = $("#circle");
 const $dropperCursor = $("#dropper");
 const $numberFontDraw = $("#numberFontDraw");
 const $numberFontEraser = $("#numberFontEraser");
-
+const $downloadButton = $("#download");
 const listButtons = [$drawButton, $deleteButton, $elipseButton, $squareButton, $dropperCursor]
 const ctx = $canvasDraw.getContext("2d")
 
@@ -65,6 +65,7 @@ $pickerColor.addEventListener("change", changeColor);
 $clearButton.addEventListener("click", clearCanvas);
 $numberFontDraw.addEventListener("click",changeLineWidthDraw)
 $numberFontEraser.addEventListener("click",changeLineWidthEraser)
+$downloadButton.addEventListener("click",downloadImg)
 listButtons.map(button => {
     button.addEventListener("click", () => {
         setMode(selectedMode(button), button);
@@ -253,7 +254,14 @@ function changeLineWidthEraser(value){
     if(mode==Mode.Delete){
         canvasLineWidth=$numberFontEraser.value
     }
-   
     $circleCursor.style.width=$numberFontEraser.value+"px"
     $circleCursor.style.height=$numberFontEraser.value+"px"
+}
+function downloadImg(value){
+    const image = canvas.toDataURL("image/png");
+    
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'imgPaint.png';  // Nombre del archivo descargado
+    link.click();
 }

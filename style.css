@@ -209,6 +209,25 @@ img {
 .fontDraw{
     padding:10px;
 }
+.download{
+    width: 150px;
+    display: flex;
+    align-items: center;
+}
+.download button{
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.326);
+}
+.download button:hover{
+    padding: 5px;
+    background-color: rgba(128, 128, 128, 0.68);
+}
+.download button:active{
+    padding: 5px;
+    background-color: grey;
+}
 @media only screen and (max-width: 1300px) {
     header{
         padding: 10px;
